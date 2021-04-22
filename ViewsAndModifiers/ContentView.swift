@@ -5,26 +5,55 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- SwiftUI lets us break complex views down into smaller views without incurring much
- if any performance impact. This means that we can split up one large view into
- multiple smaller views, and SwiftUI takes care of reassembling them for us.
+ SwiftUI gives us a range of built-in modifiers, such as font(), background(), and
+ clipShape(). However, it’s also possible to create custom modifiers that do
+ something specific.
  
 */
 
 import SwiftUI
 
-struct CapsuleText: View {
-    var text:String
-    
-    var body: some View {
-        Text(text)
+struct Title: ViewModifier {
+    func body (content: Content) -> some View {
+        content
             .font(.largeTitle)
-            .padding()
             .foregroundColor(.white)
+            .padding()
             .background(Color.blue)
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
+
+extension View {
+    func titleStyle() -> some View {
+        self.modifier(Title())
+    }
+}
+
+struct Watermark: ViewModifier {
+    var text: String
+    
+    func body(content:Content) -> some View {
+        ZStack(){
+            content
+            Text(text)
+                .font(.largeTitle)
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .font(.caption)
+        }
+    }
+}
+
+extension View {
+    func waterMarked(with text: String) -> some View {
+        self.modifier(Watermark(text:text))
+    }
+}
+
+
 
 struct ContentView: View {
     /*
@@ -35,9 +64,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            CapsuleText(text: "First")
-            CapsuleText(text: "Second")
-            CapsuleText(text: "Third")
+            Color.blue
+                .frame(width:300, height: 300)
+                .waterMarked(with: "Hacking with Swift")
+            
         }
         
     }
