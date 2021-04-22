@@ -5,32 +5,33 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- Environment modifiers
- 
- Many modifiers can be applied to containers, which allows us to apply the same
- modifier to many views at the same time.
+ There are lots of ways to make it easier to use complex view hierarchies in
+ SwiftUI, and one option is to use properties – to create a view as a property of
+ your own view, then use that property inside your layouts.
 
- For example, if we have four text views in a VStack and want to give them all the
- same font modifier, we could apply the modifier to the VStack directly and have
- that change apply to all four text views:
+ For example, we could create two text views like this as properties, then use them
+ inside a VStack:
  
- 
- */
+*/
 
 import SwiftUI
 
 struct ContentView: View {
-    @State private var useRedText = false
-    // the environment is the entire VStack
+    
+    // For example, we could create two text views like this as properties,
+    // then use them inside a VStack:
+    
+    let motto1 = Text("Draco dormiens").foregroundColor(.red)
+    let motto2 = Text("nunquam titillandus").foregroundColor(.blue)
+    var motto3: some View { Text("Draco dormiens") }
+    
     var body: some View {
         VStack {
-            Text("Gryffindor")
-                .font(.largeTitle) //overrides the environment modifier
-            Text("Hufflepuff")
-            Text("Ravenclaw")
-            Text("Slytherin")
+            motto1
+            motto2
+            motto3
         }
-        .font(.title) //environment modifier
+        
     }
 }
 
