@@ -5,7 +5,7 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- Why modifier order matters
+ Why does SwiftUI use “some View” for its view type?
  
  Whenever we apply a modifier to a SwiftUI view, we actually create a
  new view with that change applied – we don’t just modify the
