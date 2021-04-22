@@ -5,40 +5,14 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- Conditional modifiers?
+ Environment modifiers
  
- It’s common to want modifiers that apply only when a certain
- condition is met, and in SwiftUI the easiest way to do that is with
- the ternary operator.
+ Many modifiers can be applied to containers, which allows us to apply the same
+ modifier to many views at the same time.
 
- As a reminder, to use the ternary operator you write your condition
- first, then a question mark and what should be used if the condition
- is true, then a colon followed by what should be used if the
- condition is false.
-
- For example, if you had a property that could be either true or
- false, you could use that to control the foreground color of a
- button like this:
- 
- var body: some View {
-     Button("Hello World"){
-         self.useRedText.toggle()
-     }
-     .foregroundColor(useRedText ? .red : .blue)
- }
- 
- writing it like this would not work because the type of view
- you will return is no longer certain
- 
- 
- var body: some View {
-     if self.useRedText {
-         return Text("Hello World")
-     } else {
-         return Text("Hello World")
-             .background(Color.red)
-     }
- }
+ For example, if we have four text views in a VStack and want to give them all the
+ same font modifier, we could apply the modifier to the VStack directly and have
+ that change apply to all four text views:
  
  
  */
@@ -47,12 +21,16 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var useRedText = false
-    
+    // the environment is the entire VStack
     var body: some View {
-        Button("Hello World"){
-            self.useRedText.toggle()
+        VStack {
+            Text("Gryffindor")
+                .font(.largeTitle) //overrides the environment modifier
+            Text("Hufflepuff")
+            Text("Ravenclaw")
+            Text("Slytherin")
         }
-        .foregroundColor(useRedText ? .red : .blue)
+        .font(.title) //environment modifier
     }
 }
 
