@@ -5,31 +5,39 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- There are lots of ways to make it easier to use complex view hierarchies in
- SwiftUI, and one option is to use properties – to create a view as a property of
- your own view, then use that property inside your layouts.
-
- For example, we could create two text views like this as properties, then use them
- inside a VStack:
+ SwiftUI lets us break complex views down into smaller views without incurring much
+ if any performance impact. This means that we can split up one large view into
+ multiple smaller views, and SwiftUI takes care of reassembling them for us.
  
 */
 
 import SwiftUI
 
+struct CapsuleText: View {
+    var text:String
+    
+    var body: some View {
+        Text(text)
+            .font(.largeTitle)
+            .padding()
+            .foregroundColor(.white)
+            .background(Color.blue)
+            .clipShape(Capsule())
+    }
+}
+
 struct ContentView: View {
+    /*
+     We can then use that CapsuleText view inside our original view, like this:
+     */
     
-    // For example, we could create two text views like this as properties,
-    // then use them inside a VStack:
     
-    let motto1 = Text("Draco dormiens").foregroundColor(.red)
-    let motto2 = Text("nunquam titillandus").foregroundColor(.blue)
-    var motto3: some View { Text("Draco dormiens") }
     
     var body: some View {
         VStack {
-            motto1
-            motto2
-            motto3
+            CapsuleText(text: "First")
+            CapsuleText(text: "Second")
+            CapsuleText(text: "Third")
         }
         
     }
