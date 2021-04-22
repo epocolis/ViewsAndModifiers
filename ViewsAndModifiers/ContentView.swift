@@ -5,40 +5,54 @@
 //  Created by Leotis buchanan on 2021-04-22.
 //
 /*
- Why does SwiftUI use “some View” for its view type?
+ Conditional modifiers?
  
- Whenever we apply a modifier to a SwiftUI view, we actually create a
- new view with that change applied – we don’t just modify the
- existing view in place. If you think about it, this behavior makes
- sense – our views only hold the exact properties we give them, so if
- we set the background color or font size there is no place to store
- that data.
+ It’s common to want modifiers that apply only when a certain
+ condition is met, and in SwiftUI the easiest way to do that is with
+ the ternary operator.
+
+ As a reminder, to use the ternary operator you write your condition
+ first, then a question mark and what should be used if the condition
+ is true, then a colon followed by what should be used if the
+ condition is false.
+
+ For example, if you had a property that could be either true or
+ false, you could use that to control the foreground color of a
+ button like this:
  
- the order of your modifiers matter
+ var body: some View {
+     Button("Hello World"){
+         self.useRedText.toggle()
+     }
+     .foregroundColor(useRedText ? .red : .blue)
+ }
+ 
+ writing it like this would not work because the type of view
+ you will return is no longer certain
  
  
- The best way to think about it for now is to imagine that SwiftUI
- renders your view after every single modifier. So, as soon as you
- say .background(Color.red) it colors the background in red,
- regardless of what frame you give it. If you then later expand the
- frame, it won’t magically redraw the background – that was already
- applied.
+ var body: some View {
+     if self.useRedText {
+         return Text("Hello World")
+     } else {
+         return Text("Hello World")
+             .background(Color.red)
+     }
+ }
+ 
  
  */
 
 import SwiftUI
 
 struct ContentView: View {
+    @State private var useRedText = false
+    
     var body: some View {
-        Text("Hello World")
-            .padding()
-            .background(Color.red)
-            .padding()
-            .background(Color.blue)
-            .padding()
-            .background(Color.green)
-            .padding()
-            .background(Color.yellow)
+        Button("Hello World"){
+            self.useRedText.toggle()
+        }
+        .foregroundColor(useRedText ? .red : .blue)
     }
 }
 
